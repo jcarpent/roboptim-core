@@ -39,12 +39,13 @@ namespace roboptim
   } // end of anonymous namespace.
 
   template <typename T>
-  CachedFunction<T>::CachedFunction (boost::shared_ptr<const T> fct)
+  CachedFunction<T>::CachedFunction (boost::shared_ptr<const T> fct,
+                                     size_t size)
     : T (fct->inputSize (), fct->outputSize (), cachedFunctionName (*fct)),
       function_ (fct),
-      cache_ (derivativeSize<T>::value),
-      gradientCache_ (static_cast<std::size_t> (fct->outputSize ())),
-      hessianCache_ (static_cast<std::size_t> (fct->outputSize ()))
+      cache_ (derivativeSize<T>::value, size),
+      gradientCache_ (static_cast<std::size_t> (fct->outputSize ()), size),
+      hessianCache_ (static_cast<std::size_t> (fct->outputSize ()), size)
   {
   }
 
@@ -57,9 +58,31 @@ namespace roboptim
   void
   CachedFunction<T>::reset ()
   {
-    cache_.clear ();
-    gradientCache_.clear ();
-    hessianCache_.clear ();
+    for (typename std::vector<functionCache_t>::iterator
+	   iter  = cache_.begin ();
+         iter != cache_.end ();
+         ++iter)
+      {
+	iter->clear ();
+      }
+
+    for (typename std::vector<gradientCache_t>::iterator
+	   iter  = gradientCache_.begin ();
+         iter != gradientCache_.end ();
+         ++iter)
+      {
+	iter->clear ();
+      }
+
+    jacobianCache_.clear ();
+
+    for (typename std::vector<hessianCache_t>::iterator
+	   iter  = hessianCache_.begin ();
+         iter != hessianCache_.end ();
+         ++iter)
+      {
+	iter->clear ();
+      }
   }
 
 
@@ -73,7 +96,7 @@ namespace roboptim
       const_iterator it = cache_[0].find (argument);
     if (it != cache_[0].end ())
       {
-        result = it->second;
+        result = *(it->second);
         return;
       }
     (*function_) (result, argument);
@@ -113,7 +136,7 @@ namespace roboptim
       [static_cast<std::size_t> (functionId)].find (argument);
     if (it != gradientCache_[static_cast<std::size_t> (functionId)].end ())
       {
-        gradient = it->second;
+        gradient = *(it->second);
         return;
       }
     function_->gradient (gradient, argument, functionId);
@@ -151,7 +174,7 @@ namespace roboptim
       const_iterator it = jacobianCache_.find (argument);
     if (it != jacobianCache_.end ())
       {
-        jacobian = it->second;
+        jacobian = *(it->second);
         return;
       }
     function_->jacobian (jacobian, argument);
@@ -206,7 +229,7 @@ namespace roboptim
       [static_cast<std::size_t> (functionId)].find (argument);
     if (it != hessianCache_[functionId].end ())
       {
-        hessian = it->second;
+        hessian = *(it->second);
         return;
       }
 #endif
@@ -276,7 +299,7 @@ namespace roboptim
       const_iterator it = cache_[order].find (x);
     if (it != cache_[order].end ())
       {
-        derivative = it->second;
+        derivative = *(it->second);
         return;
       }
     function_->derivative (derivative, x, order);

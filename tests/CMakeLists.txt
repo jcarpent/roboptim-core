@@ -77,6 +77,7 @@ ROBOPTIM_CORE_TEST(interval)
 ROBOPTIM_CORE_TEST(util)
 ROBOPTIM_CORE_TEST(indent)
 ROBOPTIM_CORE_TEST(detail-utility)
+ROBOPTIM_CORE_TEST(cache)
 ROBOPTIM_CORE_TEST(function)
 ROBOPTIM_CORE_TEST(derivable-function)
 ROBOPTIM_CORE_TEST(twice-derivable-function)
@@ -123,10 +124,9 @@ ROBOPTIM_CORE_TEST(function-identity)
 ROBOPTIM_CORE_TEST(function-sin)
 ROBOPTIM_CORE_TEST(function-polynomial)
 
-ROBOPTIM_CORE_TEST(cached-function)
-ROBOPTIM_CORE_TEST(split)
-
+# Filters.
 ROBOPTIM_CORE_TEST(filter-bind)
+ROBOPTIM_CORE_TEST(filter-cached-function)
 ROBOPTIM_CORE_TEST(filter-chain)
 ROBOPTIM_CORE_TEST(filter-concatenate)
 ROBOPTIM_CORE_TEST(filter-derivative)
@@ -137,6 +137,7 @@ ROBOPTIM_CORE_TEST(filter-product)
 ROBOPTIM_CORE_TEST(filter-scalar)
 ROBOPTIM_CORE_TEST(filter-selection)
 ROBOPTIM_CORE_TEST(filter-selection-by-id)
+ROBOPTIM_CORE_TEST(filter-split)
 
 # Visualization
 ROBOPTIM_CORE_TEST(visualization-gnuplot-simple)

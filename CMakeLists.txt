@@ -28,6 +28,8 @@ SET(PROJECT_URL "http://github.com/roboptim/roboptim-core")
 
 SET(HEADERS
   ${CMAKE_SOURCE_DIR}/include/roboptim/core.hh
+  ${CMAKE_SOURCE_DIR}/include/roboptim/core/cache.hh
+  ${CMAKE_SOURCE_DIR}/include/roboptim/core/cache.hxx
   ${CMAKE_SOURCE_DIR}/include/roboptim/core/callback/multiplexer.hh
   ${CMAKE_SOURCE_DIR}/include/roboptim/core/callback/multiplexer.hxx
   ${CMAKE_SOURCE_DIR}/include/roboptim/core/debug.hh
@@ -70,6 +72,7 @@ SET(HEADERS
   ${CMAKE_SOURCE_DIR}/include/roboptim/core/function/cos.hh
   ${CMAKE_SOURCE_DIR}/include/roboptim/core/function/identity.hh
   ${CMAKE_SOURCE_DIR}/include/roboptim/core/function/polynomial.hh
+  ${CMAKE_SOURCE_DIR}/include/roboptim/core/function/polynomial.hxx
   ${CMAKE_SOURCE_DIR}/include/roboptim/core/function/sin.hh
   ${CMAKE_SOURCE_DIR}/include/roboptim/core/fwd.hh
   ${CMAKE_SOURCE_DIR}/include/roboptim/core/generic-solver.hh
@@ -84,6 +87,7 @@ SET(HEADERS
   ${CMAKE_SOURCE_DIR}/include/roboptim/core/numeric-quadratic-function.hh
   ${CMAKE_SOURCE_DIR}/include/roboptim/core/numeric-quadratic-function.hxx
   ${CMAKE_SOURCE_DIR}/include/roboptim/core/optimization-logger.hh
+  ${CMAKE_SOURCE_DIR}/include/roboptim/core/optimization-logger.hxx
   ${CMAKE_SOURCE_DIR}/include/roboptim/core/parametrized-function.hh
   ${CMAKE_SOURCE_DIR}/include/roboptim/core/parametrized-function.hxx
   ${CMAKE_SOURCE_DIR}/include/roboptim/core/plugin/dummy-laststate.hh
