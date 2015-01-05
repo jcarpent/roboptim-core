@@ -158,17 +158,19 @@ PKG_CONFIG_APPEND_LIBS(roboptim-core)
 SET(BOOST_COMPONENTS
   date_time filesystem system thread program_options unit_test_framework)
 SEARCH_FOR_BOOST()
-ADD_REQUIRED_DEPENDENCY("eigen3 >= 3.2.0")
+ADD_REQUIRED_DEPENDENCY("eigen3 >= 3.0.5")
 ADD_REQUIRED_DEPENDENCY("liblog4cxx >= 0.10.0")
 
 # Libtool dynamic loading
 # This project does not use Libtool directly but still uses ltdl for
 # plug-in loading.
 INCLUDE(CheckIncludeFileCXX)
+#set (CMAKE_REQUIRED_INCLUDES "/usr/local/include/")
+MESSAGE (STATUS ${CMAKE_REQUIRED_INCLUDES})
 CHECK_INCLUDE_FILE_CXX(ltdl.h LTDL_H_FOUND)
 IF (NOT LTDL_H_FOUND)
-  MESSAGE(FATAL_ERROR
-    "Failed to find ltdl.h, check that Libtool ltdl is installed.")
+ # MESSAGE(FATAL_ERROR
+ #   "Failed to find ltdl.h, check that Libtool ltdl is installed.")
 ENDIF()
 #FIXME: check that libltdl.so is available instead of adding it blindly.
 PKG_CONFIG_APPEND_LIBS(ltdl)
