@@ -20,6 +20,8 @@
 # include "boost/type_traits/is_same.hpp"
 # include <boost/mpl/same_as.hpp>
 
+#include <roboptim/core/util.hh>
+
 namespace roboptim
 {
   template <>
