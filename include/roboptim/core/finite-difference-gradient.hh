@@ -170,8 +170,10 @@ namespace roboptim
 
     protected:
       const GenericFunction<T>& adaptee_;
+      
     private:
       mutable gradient_t gradient_;
+      
     };
 
     /// \brief Fast finite difference gradient computation.
@@ -195,6 +197,12 @@ namespace roboptim
        gradient_t& gradient,
        const argument_t& argument,
        size_type idFunction,
+       argument_t& xEps) const;
+      
+      void computeJacobian
+      (value_type epsilon,
+       jacobian_t & jacobian,
+       const argument_t & argument,
        argument_t& xEps) const;
 
     private:

@@ -409,9 +409,10 @@ namespace roboptim
       typedef Eigen::Triplet<double> triplet_t;
 
       std::vector<triplet_t> coefficients;
+      gradient_t grad (this->adaptee_.inputSize ());
       for (jacobian_t::Index i = 0; i < this->adaptee_.outputSize (); ++i)
         {
-          gradient_t grad (this->adaptee_.inputSize ());
+          
 
           computeGradient (epsilon, grad, argument, i, xEps);
 
@@ -439,6 +440,7 @@ namespace roboptim
      const argument_t& argument,
      argument_t& xEps) const
     {
+      
       for (typename jacobian_t::Index i = 0;
 	   i < this->adaptee_.outputSize(); ++i)
 	{
@@ -447,6 +449,8 @@ namespace roboptim
           jacobian.row (i) = gradient_;
 	}
     }
+    
+    
 
     template <>
     inline void
@@ -468,27 +472,47 @@ namespace roboptim
 	    (resultEps_[idFunction] - result_[idFunction]) / epsilon;
 	}
     }
+    
+    template <typename T>
+    void
+    Simple<T>::computeJacobian
+    (value_type epsilon,
+     jacobian_t & jacobian,
+     const argument_t & argument,
+     argument_t & xEps) const
+    {
+      this->adaptee_ (result_, argument);
+      
+      for (size_type j = 0; j < this->adaptee_.inputSize (); ++j)
+      {
+        xEps = argument;
+        xEps[j] += epsilon;
+        this->adaptee_ (resultEps_, xEps);
+        
+        jacobian.col (j) = (resultEps_ - result_) / epsilon;
+      }
+    }
 
     template <typename T>
     void
     Simple<T>::computeGradient
     (value_type epsilon,
-     gradient_t& gradient,
-     const argument_t& argument,
+     gradient_t & gradient,
+     const argument_t & argument,
      size_type idFunction,
-     argument_t& xEps) const
+     argument_t & xEps) const
     {
       assert (this->adaptee_.outputSize () - idFunction > 0);
 
       this->adaptee_ (result_, argument);
       for (size_type j = 0; j < this->adaptee_.inputSize (); ++j)
-	{
-	  xEps = argument;
-	  xEps[j] += epsilon;
-	  this->adaptee_ (resultEps_, xEps);
-	  gradient (j) =
-	    (resultEps_[idFunction] - result_[idFunction]) / epsilon;
-	}
+      {
+        xEps = argument;
+        xEps[j] += epsilon;
+        this->adaptee_ (resultEps_, xEps);
+        gradient (j) =
+          (resultEps_[idFunction] - result_[idFunction]) / epsilon;
+      }
     }
 
     template <>
